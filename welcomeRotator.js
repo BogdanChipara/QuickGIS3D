@@ -4,6 +4,20 @@ let welcomeRotateTimerId = null;
 let welcomeActiveLayerId = "welcomeBgA";
 let welcomeSwapInProgress = false;
 const WELCOME_SWAP_MS = 2000;
+const WELCOME_IMAGE_FILENAMES = [
+  "Amsterdam.jpg",
+  "Berlin.jpg",
+  "Dubai.jpg",
+  "London.jpg",
+  "NewYork.jpg",
+  "Oslo.jpg",
+  "SaoPaulo.jpg",
+  "Shanghai.jpg",
+  "Sidney.jpg",
+  "Singapore.jpg",
+  "Tirana.jpg",
+  "Venice.jpg"
+];
 
 function getWelcomeBgLayers() {
 
@@ -21,51 +35,11 @@ function getWelcomeBgLayers() {
 
 }
 
-function normalizeWelcomeImageHref(href) {
+function discoverWelcomeImages() {
 
-  const clean = href.split("#")[0].split("?")[0].trim();
-  if (!clean) return null;
-
-  if (/^https?:\/\//i.test(clean)) {
-    return clean;
-  }
-
-  if (/^\/welcomeimages\//i.test(clean)) {
-    return clean;
-  }
-
-  if (/^welcomeimages\//i.test(clean)) {
-    return clean;
-  }
-
-  return `welcomeimages/${clean.replace(/^\.\/?/, "")}`;
-
-}
-
-async function discoverWelcomeImages() {
-
-  try {
-    const response = await fetch("welcomeimages/");
-    if (!response.ok) {
-      return [];
-    }
-
-    const html = await response.text();
-    const regex = /href=["']([^"']+\.(?:jpg|jpeg|png|webp|gif))["']/ig;
-    const found = [];
-    let match = null;
-
-    while ((match = regex.exec(html)) !== null) {
-      const normalized = normalizeWelcomeImageHref(match[1]);
-      if (normalized) {
-        found.push(normalized);
-      }
-    }
-
-    return [...new Set(found)];
-  } catch (error) {
-    return [];
-  }
+  return WELCOME_IMAGE_FILENAMES.map((filename) =>
+    new URL(`welcomeimages/${encodeURIComponent(filename)}`, window.location.href).toString()
+  );
 
 }
 
@@ -125,7 +99,7 @@ async function rotateWelcomeBackgroundOnce() {
 
 async function initWelcomeBackgroundRotator() {
 
-  welcomeImageUrls = await discoverWelcomeImages();
+  welcomeImageUrls = discoverWelcomeImages();
   if (!welcomeImageUrls.length) {
     return;
   }
