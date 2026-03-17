@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cesium 3D download</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.139/Build/Cesium/Cesium.js"></script>
+<link href="https://cesium.com/downloads/cesiumjs/releases/1.139/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="toolbar">
+
+<div class="row">
+<button id="getTokenBtn">Get Token</button>
+<button id="clearTokenBtn">Clear Token</button>
+<input id="ionToken" placeholder="To start the viewer paste your Cesium token from: https://ion.cesium.com/tokens">
+<input id="mapsLocation" placeholder="Paste Google Maps location link (https://www.google.com/maps/@lat,lon,alt...)">
+<button id="copyBtn">Copy Location</button>
+<button id="exportObjBtn">Export Visible OBJ</button>
+<button id="exportJsonBtn">Export JSON</button>
+<span id="exportProgress"></span>
+</div>
+
+<div class="row" id="sunRow">
+<label for="sunAzimuth">Sun Rotate</label>
+<input id="sunAzimuth" type="range" min="0" max="360" step="1" value="0">
+<span id="sunAzimuthValue">0° (East)</span>
+<div id="coords"></div>
+</div>
+
+</div>
+
+<div id="cesiumContainer"></div>
+
+<div id="welcomePanel" role="region" aria-label="Welcome panel">
+<div id="welcomeBackground" aria-hidden="true">
+<div class="welcome-bg-layer is-visible" id="welcomeBgA"></div>
+<div class="welcome-bg-layer" id="welcomeBgB"></div>
+</div>
+<div class="welcome-card">
+<h1>Welcome to QuickGIS3D!</h1>
+<p>Here you can download 3D models from Cesium GIS database!</p>
+<p>To start the viewer, paste your Cesium ion token in the field above.</p>
+<p>Optional: Paste a Google Maps location link to jump to a place.</p>
+<p>Tip: Use middle-click to rotate.</p>
+<p>Find your building and click Export Visible OBJ!</p>
+<p>Import in your 3D software and zoom to world origin.</p>
+<p><a href="https://www.linkedin.com/in/bogdanchipara/" target="_blank" rel="noopener noreferrer">Find me on LinkedIn</a></p>
+</div>
+</div>
+
+<script src="app.js"></script>
+<script src="welcomeRotator.js"></script>
+<script src="exportVisibleObj.js"></script>
+
+</body>
+</html>
